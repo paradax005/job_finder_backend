@@ -5,6 +5,10 @@ dotenv.config();
 
 const app = express();
 
+const authRoute = require("./routes/auth.route");
+
+
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -17,6 +21,9 @@ mongoose
 app.get("/", (req, res) => {
   res.json({ message: "Here we go !👌👌 " });
 });
+
+app.use(express.json());
+app.use('/api',authRoute);
 
 app.listen(process.env.PORT || 3002, () =>
   console.log(`Server is listen to port ${process.env.PORT} 🤷‍♂️🤷‍♂️ !`)
