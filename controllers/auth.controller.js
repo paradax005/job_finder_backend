@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const CryptoJs = require("crypto-js");
+const { generateToken } = require("../utils/generateToken");
 
 module.exports = {
   /// Creating a new User
@@ -39,9 +40,11 @@ module.exports = {
       if (sPassword !== req.body.password)
         return res.status(401).json("Wrong login details");
 
+      const token = generateToken(user.id);
+
       const { password, createdAt, updatedAt, __v, ...others } = user._doc;
 
-      return res.status(200).json(others);
+      return res.status(200).json({ others, token });
     } catch (err) {
       return res.status(500).json({ err });
     }

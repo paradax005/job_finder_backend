@@ -7,10 +7,13 @@ const verifyToken = (req, res, next) => {
   if (authHeader) {
     const token = authHeader.split(" ")[1];
 
-    jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, user) => {
       if (err) res.status(403).json("Invalid credentials");
-      req.user = user;
-      console.log(user);
+
+      const connectedUser = await User.findById(user.id);
+
+      req.user = connectedUser;
+      console.log(req.user);
       next();
     });
   } else {
@@ -20,11 +23,21 @@ const verifyToken = (req, res, next) => {
 
 const verifyAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user._id === req.params.id) {
+    if (req.user.id === req.params.id) {
       next();
     } else {
       res.status(403).json("you are restricted to perform this action");
     }
   });
 };
-module.exports = { verifyToken, verifyAndAuthorization };
+
+const isAnAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      res.status(403).json("you are restricted to perform this action");
+    }
+  });
+};
+module.exports = { verifyToken, verifyAndAuthorization, isAnAdmin };
