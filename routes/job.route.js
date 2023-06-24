@@ -18,7 +18,7 @@ router.put("/:id", isAnAdmin, jobController.updateJob);
 /// DELETE JOB
 router.delete("/:id", isAnAdmin, jobController.deleteJob);
 
-// /// SEARCH JOB
-// router.get("/search/:key",jobController.searchJob);
+/// SEARCH JOB
+router.get("/search/:key", jobController.searchJob);
 
 module.exports = router;
