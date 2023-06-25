@@ -10,10 +10,7 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, user) => {
       if (err) res.status(403).json("Invalid credentials");
 
-      const connectedUser = await User.findById(user.id);
-
-      req.user = connectedUser;
-      console.log(req.user);
+      req.user = user;
       next();
     });
   } else {

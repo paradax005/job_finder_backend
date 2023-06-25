@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 const CryptoJs = require("crypto-js");
-const { generateToken } = require("../utils/generateToken");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   /// Creating a new User
@@ -40,11 +40,19 @@ module.exports = {
       if (sPassword !== req.body.password)
         return res.status(401).json("Wrong login details");
 
-      const token = generateToken(user.id);
+      const userToken = jwt.sign(
+        {
+          id: user._id,
+          isAdmin: user.isAdmin,
+          isAgent: user.isAgent,
+        },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: process.env.JWT_EXPIRE_TIME }
+      );
 
       const { password, createdAt, updatedAt, __v, ...others } = user._doc;
 
-      return res.status(200).json({ others, token });
+      return res.status(200).json({ ...others, userToken });
     } catch (err) {
       return res.status(500).json({ err });
     }

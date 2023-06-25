@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const bookMarkController = require("../controllers/bookmark.controller");
 
-const { isAnAdmin } = require("../middlewares/verify_token");
+const { isAnAdmin,verifyAndAuthorization } = require("../middlewares/verify_token");
 
 /// CREATE BOOKMARK
-router.post("/", isAnAdmin, bookMarkController.createBookMark);
+router.post("/", verifyAndAuthorization, bookMarkController.createBookMark);
 
 /// GET SPECIFIC BOOKMARK
 router.get("/:userId", bookMarkController.getBookMarks);
