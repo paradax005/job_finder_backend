@@ -13,7 +13,7 @@ module.exports = {
 
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
+        req.user.id,
         {
           $set: req.body,
         },
@@ -30,7 +30,7 @@ module.exports = {
   /// DELETE USER
   deleteUser: async (req, res) => {
     try {
-      console.log(req.params.id);
+      console.log(req.user.id);
       await User.findByIdAndDelete(req.params.id);
 
       res.status(200).json("Account deleted Successfully");
