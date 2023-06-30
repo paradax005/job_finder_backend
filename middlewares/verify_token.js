@@ -8,7 +8,7 @@ const verifyToken = (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, user) => {
-      if (err) res.status(403).json("Invalid credentials");
+      if (err) return res.status(403).json("Invalid credentials");
 
       req.user = user;
       next();
@@ -23,7 +23,7 @@ const verifyAndAuthorization = (req, res, next) => {
     if (req.user.id === req.params.id) {
       next();
     } else {
-      res.status(403).json("you are restricted to perform this action");
+      return res.status(403).json("you are restricted to perform this action");
     }
   });
 };
@@ -33,7 +33,7 @@ const isAnAdmin = (req, res, next) => {
     if (req.user.isAdmin) {
       next();
     } else {
-      res.status(403).json("you are restricted to perform this action");
+      return res.status(403).json("you are restricted to perform this action");
     }
   });
 };

@@ -4,6 +4,12 @@ const CryptoJs = require("crypto-js");
 module.exports = {
   /// Update User
   updateUser: async (req, res) => {
+    console.log("--------------------------------");
+    console.log("LOGGED USER");
+    console.log("--------------------------------");
+    console.log(req.user);
+    console.log(req.user.id);
+
     if (req.body.password) {
       req.body.password = CryptoJs.AES.encrypt(
         req.body.password,
@@ -46,7 +52,6 @@ module.exports = {
       const { password, __v, createdAt, ...userData } = savedUser._doc;
 
       res.status(200).json(userData);
-
     } catch (error) {
       res.status(500).json(error);
     }
@@ -56,9 +61,7 @@ module.exports = {
     try {
       const users = await User.find();
 
-
       res.status(200).json(users);
-
     } catch (error) {
       res.status(500).json(error);
     }
