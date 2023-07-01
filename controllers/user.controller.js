@@ -44,10 +44,10 @@ module.exports = {
       res.status(500).json(error);
     }
   },
-  /// GET SINGLE USER
+  /// GET CONNECTED USER
   getUser: async (req, res) => {
     try {
-      const savedUser = await User.findById(req.params.id);
+      const savedUser = await User.findById(req.user.id);
 
       const { password, __v, createdAt, ...userData } = savedUser._doc;
 
