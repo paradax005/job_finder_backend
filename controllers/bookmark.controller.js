@@ -4,19 +4,19 @@ const Job = require("../models/job.model");
 module.exports = {
   /// CREATE BOOKMARK
   createBookMark: async (req, res) => {
-      
-      const jobID = req.body.job;
-      
+    const jobID = req.body.job;
+
     try {
       const job = await Job.findById(jobID);
-      
-      if(!job){
-        return res.status(404).json({error : 'Job not found'});
+
+      if (!job) {
+        return res.status(404).json({ error: "Job not found" });
       }
 
-      const newBookMark = new BookMark({job : jobID,userId : req.user.id});
+      const newBookMark = new BookMark({ job: jobID, userId: req.user.id });
       const savedBookMark = await newBookMark.save();
-      const { __v, createdAt, updatedAt, ...newBookMarkInfo } = savedBookMark._doc;
+      const { __v, createdAt, updatedAt, ...newBookMarkInfo } =
+        savedBookMark._doc;
 
       res.status(201).json(newBookMarkInfo);
     } catch (error) {
@@ -27,7 +27,9 @@ module.exports = {
   /// GET SPECIFIC BookMarks
   getBookMarks: async (req, res) => {
     try {
-      const bookMark = await BookMark.find({ userId: req.user.id });
+      const bookMark = await BookMark.find({ userId: req.user.id }).populate(
+        "job"
+      );
       res.status(200).json(bookMark);
     } catch (error) {
       res.status(500).json(error);
