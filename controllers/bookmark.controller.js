@@ -27,7 +27,7 @@ module.exports = {
   /// GET SPECIFIC BookMarks
   getBookMarks: async (req, res) => {
     try {
-      const bookMark = await BookMark.findById({ userId: req.params.userId });
+      const bookMark = await BookMark.find({ userId: req.user.id });
       res.status(200).json(bookMark);
     } catch (error) {
       res.status(500).json(error);
