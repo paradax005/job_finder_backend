@@ -39,7 +39,9 @@ module.exports = {
   /// DELETE BookMark
   deleteBookMark: async (req, res) => {
     try {
-      await BookMark.findByIdAndRemove(req.params.id);
+      const jobId = req.params.id ; 
+      const userId = req.user.id ; 
+      await BookMark.findOneAndDelete({job : jobId, userId: userId});
       res.status(200).json("BookMark Successfully Deleted");
     } catch (error) {
       res.status(500).json(error);
