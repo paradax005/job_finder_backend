@@ -43,7 +43,7 @@ const io = require("socket.io")(server, {
     // localhost
     // origin: "http:localhost:3001",
     // hosted server
-    origin: "https://jobfinderbackend-production.up.railway.app/",
+    origin: "https://jobfinder-backend-paradax.onrender.com/",
   },
 });
 
@@ -83,6 +83,7 @@ io.on("connection", (socket) => {
     }
 
     var senderId = sender._id;
+    console.log(senderId + "message sender");
     const users = chat.users;
 
     if (!users) {
