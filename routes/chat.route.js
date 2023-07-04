@@ -7,6 +7,6 @@ const { verifyToken } = require("../middlewares/verify_token");
 router.post("/", verifyToken, chatController.accessMessage);
 
 /// GET Chats
-router.get("/:id", verifyToken, chatController.getChat);
+router.get("/", verifyToken, chatController.getChat);
 
 module.exports = router;
