@@ -6,7 +6,6 @@ module.exports = {
   sendMessage: async (req, res) => {
     const { content, chatId, receiver } = req.body;
     if (!content || !chatId) {
-      console.log("Invalid Data !");
       return res.status(404);
     }
     var newMessage = {
@@ -36,8 +35,6 @@ module.exports = {
   },
   getAllMessages: async (req, res) => {
     try {
-      console.log("<<<<<<<<<<<<<<<<< chat id <<<<<<<<<<<<<<<<");
-      console.log(req.params.id);
       /// Number of messages per page
       const pageSize = 12;
       /// Current page number
