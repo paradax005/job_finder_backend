@@ -51,7 +51,8 @@ io.on("connection", (socket) => {
   console.log("Connected to socket ");
   socket.on("setup", (userId) => {
     socket.join(userId);
-    socket.broadcast("online-user", userId);
+    
+    socket.broadcast.emit("online-user", userId);
     console.log(userId);
   });
 
